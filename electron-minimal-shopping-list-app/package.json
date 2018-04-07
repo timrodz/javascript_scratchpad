@@ -1,0 +1,14 @@
+{
+  "name": "electron-minimal-shopping-list-app",
+  "version": "1.0.0",
+  "description": "Shopping List desktop app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Juan Rodriguez",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^1.8.4"
+  }
+}
