@@ -1,13 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Get rid of metadata -->
-    <!-- <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
     <title>Shopping List</title>
+    
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
 </head>
 <body>
-    <h1>Shopping List</h1>
+    <nav>
+        <div class="nav-wrapper">
+            <a class="brand-logo center">Shopping List</a>
+        </div>
+    </nav>
+    
+    <!-- List -->
+    <ul></ul>
+    
+    <script>
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
+        
+        // Find the ul tag in our document
+        const ul = document.querySelector('ul');
+        
+        ipcRenderer.on('item:add', function(e, item) {
+            // Set its class name to be collection only when an item has been added
+            ul.className = 'collection';
+            
+            // Create a list item
+            const li = document.createElement('li');
+            li.className = 'collection-item';
+            
+            // Check for length <= 0
+            if (item == '') {
+                return;
+            }
+            
+            // Create a text node with the item's text
+            const itemText = document.createTextNode(item);
+            
+            // Add text to li
+            li.appendChild(itemText);
+            
+            // Add li to ul
+            ul.appendChild(li);
+        });
+        
+        ipcRenderer.on('item:clear', function(e, item){
+            // Set the contents inside the ul to nothing
+            ul.innerHTML = '';
+            ul.className = '';
+        });
+        
+        // Remove item upon double click
+        ul.addEventListener('dblclick', removeItem);
+        
+        function removeItem(e) {
+            // Any li we double click inside the ul will be removed
+            e.target.remove();
+            if (ul.children.length == 0) {
+                ul.className = '';
+            }
+        }
+    </script>
 </body>
 </html>
